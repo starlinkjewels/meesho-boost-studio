@@ -45,25 +45,3 @@ export const PROMPT_PRESETS = [
   },
 ];
 
-const _UNUSED_OLD = [
-  {
-    name: "Catalog Hero (Lowest Shipping)",
-    prompt:
-      "Take @image1 and place it on a pure pristine white background (#FFFFFF), perfectly centered, product fills 80% of frame, square 1:1 composition, soft natural studio shadow directly beneath, flat even lighting, no text no logo no watermark no price tag, professional e-commerce catalog photo, sharp focus, true-to-life colors, Meesho-ready product shot.",
-  },
-  {
-    name: "Clean Background Replace",
-    prompt:
-      "Replace the background of @image1 with pure white (#FFFFFF). Keep the product exactly identical — same color, same texture, same shape, same details. Centered composition, square format, subtle drop shadow. No text or graphics added.",
-  },
-  {
-    name: "Fashion / Apparel Flat Lay",
-    prompt:
-      "Convert @image1 into a flat-lay catalog shot on pure white background. Garment laid flat, neatly arranged, no model, no mannequin, no hanger. Square 1:1, centered, soft top-down lighting, no shadows on background. E-commerce ready.",
-  },
-  {
-    name: "Jewellery / Small Item",
-    prompt:
-      "Take @image1 and present it as a premium catalog product on pure white background. Centered, sharp macro detail, soft reflection beneath, no props, square crop, no text or branding.",
-  },
-];
