@@ -7,22 +7,27 @@ export interface KieTaskResponse {
   data?: { taskId?: string; resultJson?: string; status?: string; resultUrls?: string[]; [k: string]: any };
 }
 
-export async function uploadFileToKie(apiKey: string, file: File): Promise<string> {
-  const form = new FormData();
-  form.append("file", file, file.name);
-  form.append("uploadPath", "images/user-upload");
-
-  const res = await fetch("/api/upload-proxy", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: form,
+// Convert a File to a pure base64 string (no data-URL prefix).
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.split(",")[1]);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
-  const json = await res.json();
-  const url = json?.data?.downloadUrl || json?.data?.fileUrl || json?.data?.url;
-  if (!url) throw new Error(json?.msg || "Upload failed: " + JSON.stringify(json));
-  return url;
+}
+
+export async function uploadFileToKie(apiKey: string, file: File): Promise<string> {
+  // Convert to base64 on the client, then hand off to the server function
+  // which proxies to Kie.ai without CORS restrictions.
+  const { uploadToKieServer } = await import("./upload.server");
+  const base64 = await fileToBase64(file);
+  return uploadToKieServer({
+    data: { apiKey, base64, mimeType: file.type, fileName: file.name },
+  });
 }
 
 export async function createImageToImageTask(
