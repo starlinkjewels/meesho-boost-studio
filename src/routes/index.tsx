@@ -301,58 +301,6 @@ function Index() {
             </Card>
           )}
         </div>
-
-        {/* Right: Tips */}
-        <aside className="space-y-6">
-          <Card className="bg-primary text-primary-foreground">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingDown className="size-5" /> Why this lowers shipping
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2 opacity-95">
-              <p>
-                Meesho calculates shipping using <b>volumetric weight zones</b>. The catalog
-                image's perceived product size, background, and aspect ratio directly affect the
-                zone class assigned at listing time.
-              </p>
-              <p>
-                Sellers report drops from <b>₹220 → ₹80</b> just by re-uploading a clean white,
-                square, tightly-cropped product shot — no product change.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Lightbulb className="size-5" /> Meesho Image Rules
-              </CardTitle>
-              <CardDescription>
-                Compiled from Meesho Supplier Panel guidelines & seller community reports
-                (Reddit r/Meesho, seller groups).
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ol className="space-y-2 text-sm list-decimal pl-5">
-                {MEESHO_TIPS.map((t, i) => (
-                  <li key={i}>{t}</li>
-                ))}
-              </ol>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Model in use</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground space-y-1">
-              <p><b>grok-imagine / image-to-image</b> via Kie.ai</p>
-              <p>Quality tier: <b>5 credits ≈ $0.025</b> → 4 images per generation</p>
-              <p>Standard: 4 credits ≈ $0.02 → 6 images</p>
-            </CardContent>
-          </Card>
-        </aside>
       </main>
     </div>
   );
