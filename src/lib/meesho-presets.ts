@@ -1,47 +1,75 @@
-export const MEESHO_TIPS = [
-  "Use PURE WHITE background (#FFFFFF) — Meesho's algorithm reads non-white backgrounds as larger volumetric weight.",
-  "Square 1:1 aspect ratio (1000x1000 or 1200x1200). Avoid tall portrait images — they inflate shipping zone calculation.",
-  "Product should fill 75–85% of the frame, perfectly centered. Too much whitespace = higher zone class.",
-  "ZERO text, watermarks, logos, price tags, badges, or stickers on the image — Meesho penalises these.",
-  "Single product per image. No collages, no model/mannequin shots in catalog hero (use lifestyle only as secondary).",
-  "Soft shadow directly under product (not long/dramatic). Flat studio lighting.",
-  "No props, no background patterns, no gradient. Plain studio look only.",
-  "Front-facing flat lay or straight-on. Avoid angled hero shots for category-1 shipping rate.",
-  "Image weight under 200KB ideal. Use compressed JPEG/WebP after generation.",
-  "Match the product's actual color exactly — colour mismatch returns inflate effective shipping cost.",
+// Meesho Zone-A (lowest delivery charge) hard rules — ALWAYS injected into every prompt.
+// The user only writes WHAT they want done with the product.
+// These rules control HOW the final image must look to qualify for the cheapest shipping zone.
+export const LOW_SHIPPING_RULES = `MANDATORY MEESHO CATALOG RULES — follow all of these exactly, they directly determine the shipping cost zone:
+1. Background: 100% pure solid white (#FFFFFF). Zero gradient, zero texture, zero pattern, zero shadow on wall, zero floor line.
+2. Aspect ratio: perfect square 1:1 (e.g. 1200×1200 px).
+3. Product placement: centered precisely, filling 80–85% of the frame. Equal whitespace on all four sides.
+4. Lighting: flat, soft, even studio light. Only a very faint contact shadow directly beneath the product — no long, dramatic, or coloured shadows.
+5. Single product only. No model, no mannequin, no hand, no hanger, no prop, no extra object, no collage, no composite.
+6. Zero text, zero logo, zero watermark, zero price tag, zero sticker, zero badge, zero border, zero frame of any kind.
+7. Preserve the product's real colour, shape, fabric/material texture, and all fine details exactly as shown in the reference image. Do NOT redesign, recolour, or simplify the product.
+8. Output must look like a premium professional e-commerce hero catalog shot that would pass Meesho's automated image-quality check for Zone A (lowest shipping rate).
+
+USER TASK (apply ALL rules above while completing this):`;
+
+export const PROMPT_PRESETS: { name: string; emoji: string; prompt: string }[] = [
+  {
+    name: "Clean background",
+    emoji: "🤍",
+    prompt:
+      "Keep @image1 exactly as-is — same product, same angle, same colours. Only remove the background and replace it with pure white. Re-center and crop to a perfect square.",
+  },
+  {
+    name: "Clothing flat-lay",
+    emoji: "👗",
+    prompt:
+      "Show the garment from @image1 as a neat, wrinkle-free flat-lay on pure white. No model, no mannequin, no hanger. Spread the fabric naturally so the full garment shape is visible.",
+  },
+  {
+    name: "Footwear pair",
+    emoji: "👟",
+    prompt:
+      "Show both shoes/sandals from @image1 as a clean pair, side by side or one slightly behind the other, on pure white. Toe tips pointing forward-left at a slight angle for best shape visibility.",
+  },
+  {
+    name: "Jewellery / accessories",
+    emoji: "💍",
+    prompt:
+      "Present the jewellery item from @image1 as a crisp, close-up macro catalog shot. All details, stones, and finish clearly visible against pure white. No hand, no neck form.",
+  },
+  {
+    name: "Home décor / furniture",
+    emoji: "🪴",
+    prompt:
+      "Show the home décor item from @image1 at a slight 3/4 angle so depth and dimensions are clear. Pure white background, no room scene, no props. Product only.",
+  },
+  {
+    name: "Electronics / gadget",
+    emoji: "📱",
+    prompt:
+      "Show the product from @image1 straight-on (front-facing) against pure white. Screen or face of the product fully visible. No hand, no cable, no packaging unless it's the product itself.",
+  },
+  {
+    name: "Merge angles → hero",
+    emoji: "🔀",
+    prompt:
+      "Use @image1 as the primary reference for shape and colour, and @image2 for any details not visible in @image1. Produce one single clean catalog hero shot of the product, front-facing.",
+  },
+  {
+    name: "Bag / wallet",
+    emoji: "👜",
+    prompt:
+      "Show the bag/wallet from @image1 upright and slightly angled (3/4 view) so the front, side, and strap are all visible. Pure white, no stuffing, no tissue inside — natural shape only.",
+  },
 ];
 
-// Hard rules that are ALWAYS injected so the final image qualifies for the
-// lowest possible shipping/volumetric-weight zone. The user only writes WHAT
-// they want done with the product — these rules handle the HOW.
-export const LOW_SHIPPING_RULES = `STRICT OUTPUT RULES (must be followed exactly, these decide shipping cost):
-- Background: 100% pure solid white #FFFFFF, no gradient, no texture, no pattern, no floor, no wall.
-- Aspect ratio: perfect square 1:1.
-- Product placement: perfectly centered, fills 78-85% of the frame, no empty borders larger than 10%.
-- Lighting: flat, soft, even studio light. Tiny soft contact shadow only directly under the product. No long or dramatic shadows.
-- Single product only. No models, no mannequins, no hands, no props, no extra items, no collage.
-- Absolutely NO text, NO logo, NO watermark, NO price tag, NO sticker, NO badge, NO border, NO frame.
-- Preserve the product's real colour, shape, material and details exactly as in the reference image. Do not redesign the product.
-- Output must look like a clean professional e-commerce catalog hero shot.
-
-USER INTENT (apply the above rules while doing this):`;
-
-export const PROMPT_PRESETS = [
-  {
-    name: "Just clean the background",
-    prompt: "Keep the product in @image1 exactly the same. Only fix the background and framing.",
-  },
-  {
-    name: "Fashion / apparel flat lay",
-    prompt: "Show the garment from @image1 as a neat flat-lay. No model, no mannequin, no hanger.",
-  },
-  {
-    name: "Jewellery / small item",
-    prompt: "Present the item in @image1 as a premium macro catalog shot with crisp detail.",
-  },
-  {
-    name: "Combine multiple angles",
-    prompt: "Use @image1 as the main product and @image2 as a reference for missing details. Produce one clean catalog hero.",
-  },
+export const MEESHO_ZONE_A_CHECKLIST = [
+  "Pure white (#FFFFFF) background",
+  "Perfect 1:1 square crop",
+  "Product centered, fills 80–85% of frame",
+  "Flat even studio lighting",
+  "Single product — no model, no props",
+  "No text, logo, watermark, or badges",
+  "Exact colour & material preserved",
 ];
-
