@@ -214,10 +214,10 @@ function Index() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Sparkles className="size-5" /> Prompt
+                <Sparkles className="size-5" /> What do you want done?
               </CardTitle>
               <CardDescription>
-                Pick a Meesho-optimised preset or write your own.
+                Just describe what to do with the product. Catalog-ready rules (pure white background, square, centered, no text) are added automatically to keep delivery charges as low as possible.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -236,8 +236,8 @@ function Index() {
               <Textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                rows={6}
-                placeholder="Describe how the image should look…"
+                rows={5}
+                placeholder="e.g. Keep the product in @image1 exactly the same, just clean the background."
               />
               <div className="flex items-center gap-2">
                 <Switch id="nsfw" checked={nsfw} onCheckedChange={setNsfw} />
