@@ -8,25 +8,16 @@ export interface KieTaskResponse {
 }
 
 export async function uploadFileToKie(apiKey: string, file: File): Promise<string> {
-  // Convert to base64 and use kie's base64 upload endpoint
-  const b64 = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve((reader.result as string).split(",")[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+  const form = new FormData();
+  form.append("file", file, file.name);
+  form.append("uploadPath", "images/user-upload");
 
-  const res = await fetch(`${BASE}/api/file-base64-upload`, {
+  const res = await fetch("/api/upload-proxy", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      base64Data: `data:${file.type};base64,${b64}`,
-      uploadPath: "images/user-upload",
-      fileName: file.name,
-    }),
+    body: form,
   });
   const json = await res.json();
   const url = json?.data?.downloadUrl || json?.data?.fileUrl || json?.data?.url;
