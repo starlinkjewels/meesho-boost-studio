@@ -258,7 +258,7 @@ function Index() {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="size-4 mr-2" /> Generate (Quality · ~$0.025 / 4 images)
+                    <Sparkles className="size-4 mr-2" /> Generate catalog images
                   </>
                 )}
               </Button>
