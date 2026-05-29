@@ -45,13 +45,9 @@ export function SettingsDialog({ onChange }: { onChange?: (key: string) => void 
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Kie.ai API Key</DialogTitle>
+          <DialogTitle>API Key</DialogTitle>
           <DialogDescription>
-            Stored only in your browser (localStorage). Get one at{" "}
-            <a className="underline" href="https://kie.ai/api-key" target="_blank" rel="noreferrer">
-              kie.ai/api-key
-            </a>
-            .
+            Your personal API key. Stored only in your browser (localStorage) and never sent anywhere except directly from your device to generate images.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2">

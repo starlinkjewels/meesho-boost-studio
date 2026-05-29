@@ -14,12 +14,10 @@ import {
   Download,
   Loader2,
   X,
-  Lightbulb,
   Package,
-  TrendingDown,
 } from "lucide-react";
 import { SettingsDialog, getStoredApiKey } from "@/components/SettingsDialog";
-import { MEESHO_TIPS, PROMPT_PRESETS } from "@/lib/meesho-presets";
+import { LOW_SHIPPING_RULES, PROMPT_PRESETS } from "@/lib/meesho-presets";
 import {
   createImageToImageTask,
   pollTaskUntilDone,
@@ -106,7 +104,8 @@ function Index() {
         });
       }
       setStatus("Submitting generation task…");
-      const taskId = await createImageToImageTask(apiKey, prompt, uploaded, nsfw);
+      const finalPrompt = `${LOW_SHIPPING_RULES}\n${prompt.trim()}`;
+      const taskId = await createImageToImageTask(apiKey, finalPrompt, uploaded, nsfw);
       setStatus(`Task ${taskId} queued. Generating…`);
       const urls = await pollTaskUntilDone(apiKey, taskId, (s) =>
         setStatus(`Status: ${s}…`),
@@ -145,9 +144,8 @@ function Index() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 grid lg:grid-cols-3 gap-6">
-        {/* Left: Inputs */}
-        <div className="lg:col-span-2 space-y-6">
+      <main className="container mx-auto px-4 py-8 max-w-3xl">
+        <div className="space-y-6">
           {/* Upload */}
           <Card>
             <CardHeader>
@@ -217,10 +215,10 @@ function Index() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Sparkles className="size-5" /> Prompt
+                <Sparkles className="size-5" /> What do you want done?
               </CardTitle>
               <CardDescription>
-                Pick a Meesho-optimised preset or write your own.
+                Just describe what to do with the product. Catalog-ready rules (pure white background, square, centered, no text) are added automatically to keep delivery charges as low as possible.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -239,8 +237,8 @@ function Index() {
               <Textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                rows={6}
-                placeholder="Describe how the image should look…"
+                rows={5}
+                placeholder="e.g. Keep the product in @image1 exactly the same, just clean the background."
               />
               <div className="flex items-center gap-2">
                 <Switch id="nsfw" checked={nsfw} onCheckedChange={setNsfw} />
@@ -260,7 +258,7 @@ function Index() {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="size-4 mr-2" /> Generate (Quality · ~$0.025 / 4 images)
+                    <Sparkles className="size-4 mr-2" /> Generate catalog images
                   </>
                 )}
               </Button>
@@ -304,58 +302,6 @@ function Index() {
             </Card>
           )}
         </div>
-
-        {/* Right: Tips */}
-        <aside className="space-y-6">
-          <Card className="bg-primary text-primary-foreground">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingDown className="size-5" /> Why this lowers shipping
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm space-y-2 opacity-95">
-              <p>
-                Meesho calculates shipping using <b>volumetric weight zones</b>. The catalog
-                image's perceived product size, background, and aspect ratio directly affect the
-                zone class assigned at listing time.
-              </p>
-              <p>
-                Sellers report drops from <b>₹220 → ₹80</b> just by re-uploading a clean white,
-                square, tightly-cropped product shot — no product change.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Lightbulb className="size-5" /> Meesho Image Rules
-              </CardTitle>
-              <CardDescription>
-                Compiled from Meesho Supplier Panel guidelines & seller community reports
-                (Reddit r/Meesho, seller groups).
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ol className="space-y-2 text-sm list-decimal pl-5">
-                {MEESHO_TIPS.map((t, i) => (
-                  <li key={i}>{t}</li>
-                ))}
-              </ol>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Model in use</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground space-y-1">
-              <p><b>grok-imagine / image-to-image</b> via Kie.ai</p>
-              <p>Quality tier: <b>5 credits ≈ $0.025</b> → 4 images per generation</p>
-              <p>Standard: 4 credits ≈ $0.02 → 6 images</p>
-            </CardContent>
-          </Card>
-        </aside>
       </main>
     </div>
   );
