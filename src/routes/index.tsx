@@ -104,7 +104,8 @@ function Index() {
         });
       }
       setStatus("Submitting generation task…");
-      const taskId = await createImageToImageTask(apiKey, prompt, uploaded, nsfw);
+      const finalPrompt = `${LOW_SHIPPING_RULES}\n${prompt.trim()}`;
+      const taskId = await createImageToImageTask(apiKey, finalPrompt, uploaded, nsfw);
       setStatus(`Task ${taskId} queued. Generating…`);
       const urls = await pollTaskUntilDone(apiKey, taskId, (s) =>
         setStatus(`Status: ${s}…`),
