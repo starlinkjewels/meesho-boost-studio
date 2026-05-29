@@ -14,12 +14,10 @@ import {
   Download,
   Loader2,
   X,
-  Lightbulb,
   Package,
-  TrendingDown,
 } from "lucide-react";
 import { SettingsDialog, getStoredApiKey } from "@/components/SettingsDialog";
-import { MEESHO_TIPS, PROMPT_PRESETS } from "@/lib/meesho-presets";
+import { LOW_SHIPPING_RULES, PROMPT_PRESETS } from "@/lib/meesho-presets";
 import {
   createImageToImageTask,
   pollTaskUntilDone,
